@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./BikeTrack.css";
 import List from "../List/List";
 import Pagination from "../Pagination/Pagination";
+import Header from "../Header/Header";
 
 const INCIDENTS_URL = "https://bikewise.org:443/api/v2/incidents",
   QUERY_PARAMETERS = {
@@ -13,7 +14,9 @@ const INCIDENTS_URL = "https://bikewise.org:443/api/v2/incidents",
 
 const recordsPerPage = 10,
   incidentType = "theft",
-  proximity = "delhi";
+  proximity = "delhi",
+  title = "Delhi Police Department",
+  subtitle = "Stolen Bikes";
 
 class BikeTrack extends Component {
   state = {
@@ -90,6 +93,8 @@ class BikeTrack extends Component {
   render() {
     return (
       <div className="BikeTrack">
+        <Header title={title} subtitle={subtitle} />
+
         {/* Incident List */}
         <List items={this.state.incidents} loading={this.state.loading} />
 
