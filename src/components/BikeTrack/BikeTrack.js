@@ -20,11 +20,17 @@ const recordsPerPage = 10,
 
 class BikeTrack extends Component {
   state = {
-    page: 1,
-    incidents: [],
-    total: 0,
-    loading: false,
-    allRecordsLoaded: false
+    current: {
+      page: 1,
+      loading: false,
+      error: false,
+      records: [],
+    },
+    all: {
+      loading: false,
+      error: false,
+      records: [],
+    },
   };
 
   componentDidMount() {
@@ -34,40 +40,79 @@ class BikeTrack extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.page !== this.state.page) {
+    if (prevState.current.page !== this.state.current.page) {
       this.getCurrentPageIncidents();
     }
   }
 
   getTotalIncidents = () => {
+    debugger;
+    this.setState({
+      all: {
+        ...this.state.all,
+        loading: true,
+      },
+    });
+
     const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
     fetch(url)
       .then((data) => data.json())
       .then((response) => {
         this.setState({
-          total: response.incidents.length,
-          allRecordsLoaded: true
+          all: {
+            ...this.state.all,
+            records: response.incidents.length,
+            loading: false,
+            error: false,
+          },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState({
+          all: {
+            ...this.state.all,
+            records: [],
+            loading: false,
+            error: true,
+          },
         });
       });
   };
 
   getCurrentPageIncidents = () => {
+    debugger;
     this.setState({
-      loading: true
+      current: {
+        ...this.state.current,
+        loading: true,
+      },
     });
 
-    const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
+    const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
 
     fetch(url)
       .then((data) => data.json())
       .then((response) => {
         this.setState({
-          incidents: response.incidents,
-          loading: false
+          current: {
+            ...this.state.current,
+            records: response.incidents,
+            loading: false,
+            error: false,
+          },
         });
       })
-      .catch(error => {
-
+      .catch((error) => {
+        console.error(error);
+        this.setState({
+          current: {
+            ...this.state.current,
+            records: [],
+            loading: false,
+            error: true,
+          },
+        });
       });
   };
 
@@ -75,18 +120,21 @@ class BikeTrack extends Component {
     let newPage;
     switch (page) {
       case "next":
-        newPage = this.state.page + 1;
+        newPage = this.state.current.page + 1;
         break;
 
       case "prev":
-        newPage = this.state.page - 1;
+        newPage = this.state.current.page - 1;
         break;
 
       default:
         newPage = parseInt(page);
     }
     this.setState({
-      page: newPage,
+      current: {
+        ...this.state.current,
+        page: newPage,
+      },
     });
   };
 
@@ -96,14 +144,13 @@ class BikeTrack extends Component {
         <Header title={title} subtitle={subtitle} />
 
         {/* Incident List */}
-        <List items={this.state.incidents} loading={this.state.loading} />
+        <List {...this.state.current} />
 
         <Pagination
-          currentPage={this.state.page}
-          total={this.state.total}
+          currentPage={this.state.current.page}
           perPage={recordsPerPage}
           setPage={this.setPage}
-          loading={!this.state.allRecordsLoaded}
+          {...this.state.all}
         />
       </div>
     );

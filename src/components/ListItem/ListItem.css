@@ -9,6 +9,11 @@
 .ListItem-title {
     font-size: 1rem;
     color: #0084cc;
+    margin: 5px 0;
+}
+
+.ListItem-description {
+    margin: 5px 0;
 }
 
 .ListItem-image-container {

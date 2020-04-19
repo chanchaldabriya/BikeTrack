@@ -1,8 +1,8 @@
 import React from "react";
 import "./Pagination.css";
 
-const Pagination = ({ currentPage, total, perPage, setPage, loading }) => {
-  const numPages = Math.ceil(total / perPage);
+const Pagination = ({ currentPage, perPage, setPage, loading=false, records=[], error=false }) => {
+  const numPages = Math.ceil(records / perPage);
 
   const isFirstPage = currentPage === 1,
     isLastPage = currentPage === numPages;
@@ -38,13 +38,20 @@ const Pagination = ({ currentPage, total, perPage, setPage, loading }) => {
     }
   };
 
-  const loadingText = "Loading...";
+  const errorText = "Couldn't load pages due to some error",
+    loadingText = "Loading...";
+
+  const placeholderText = error ? (
+    <span className="Pagination-error">{errorText}</span>
+  ) : (
+    <span className="Pagination-loading">{loadingText}</span>
+  );
 
   return (
     <div className="Pagination-container">
-      {loading ? (
-        <div className="Pagination-loading">
-          <span>{loadingText}</span>
+      {loading || error ? (
+        <div className="Pagination-placeholder">
+          {placeholderText}
         </div>
       ) : (
         <div className="Pagination">

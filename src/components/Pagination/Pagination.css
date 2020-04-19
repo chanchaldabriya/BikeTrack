@@ -28,11 +28,28 @@
     background-color: #114798;
 }
 
-.Pagination-loading {
+.Pagination-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-size: 1.2rem;
-    background-color: #0084cc;
-    padding: 10px;
     text-align: center;
     font-weight: bold;
+}
+
+.Pagination-error {
+    flex: 1;
+    background-color: #E6738B;
+}
+
+.Pagination-loading {
+    flex: 1;
+    background-color: #0084cc;
+}
+
+.Pagination-loading,
+.Pagination-error {
+    flex: 1;
+    padding: 10px;
 }
