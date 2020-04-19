@@ -27,3 +27,12 @@
 .Pagination-item:hover {
     background-color: #114798;
 }
+
+.Pagination-loading {
+    color: white;
+    font-size: 1.2rem;
+    background-color: #0084cc;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}

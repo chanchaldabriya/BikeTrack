@@ -98,6 +98,7 @@ class BikeTrack extends Component {
           total={this.state.total}
           perPage={recordsPerPage}
           setPage={this.setPage}
+          loading={!this.state.allRecordsLoaded}
         />
       </div>
     );
