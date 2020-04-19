@@ -1,0 +1,39 @@
+.ListItem {
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.ListItem-title {
+    font-size: 1rem;
+    color: #0084cc;
+}
+
+.ListItem-image-container {
+    height: 150px;
+    width: 150px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ListItem-image {
+    height: 100px;
+    max-width: 200px;
+    padding: 10px;
+}
+
+.ListItem-image.img-placeholder {
+    background-color: #ddd;
+}
+
+.ListItem-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0 10px;
+}
