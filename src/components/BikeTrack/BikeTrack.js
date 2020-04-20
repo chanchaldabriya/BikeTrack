@@ -19,6 +19,10 @@ const recordsPerPage = 10,
   title = "Delhi Police Department",
   subtitle = "Stolen Bikes";
 
+const formatDate = (dateString) => {
+  return new Date(dateString).getTime().toString().slice(0, -3);
+};
+
 class BikeTrack extends Component {
   state = {
     current: {
@@ -34,6 +38,8 @@ class BikeTrack extends Component {
     },
     filter: {
       query: "",
+      rangeStart: "",
+      rangeEnd: "",
     },
   };
 
@@ -46,18 +52,22 @@ class BikeTrack extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.current.page !== this.state.current.page ||
-      prevState.filter.query !== this.state.filter.query
+      prevState.filter.query !== this.state.filter.query ||
+      prevState.filter.rangeStart !== this.state.filter.rangeStart ||
+      prevState.filter.rangeEnd !== this.state.filter.rangeEnd
     ) {
       this.getCurrentPageIncidents();
     }
   }
 
-  setFilterQuery = (query) => {
+  setFilter = (query, rangeStart, rangeEnd) => {
     // setting query filter to state
     this.setState({
       filter: {
         ...this.state.filter,
-        query
+        query: query ? query : "",
+        rangeStart: rangeStart ? formatDate(rangeStart) : "",
+        rangeEnd: rangeEnd ? formatDate(rangeEnd) : "",
       },
     });
   };
@@ -109,6 +119,12 @@ class BikeTrack extends Component {
     let url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
 
     if (this.state.filter.query) url += `&query=${this.state.filter.query}`;
+
+    if (this.state.filter.rangeStart)
+      url += `&occurred_after=${this.state.filter.rangeStart}`;
+
+    if (this.state.filter.rangeEnd)
+      url += `&occurred_before=${this.state.filter.rangeEnd}`;
 
     fetch(url)
       .then((data) => data.json())
@@ -162,7 +178,7 @@ class BikeTrack extends Component {
       <div className="BikeTrack">
         <Header title={title} subtitle={subtitle} />
 
-        <Filter setFilterQuery={this.setFilterQuery} />
+        <Filter setFilter={this.setFilter} />
 
         {/* Incident List */}
         <List {...this.state.current} />

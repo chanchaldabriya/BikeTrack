@@ -1,26 +1,75 @@
 .Filter {
-    display: flex;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
 }
 
 .Filter-search {
-    flex: 1;
-    margin-right: 10px;
-    padding: 5px;
-    font-size: 1.2rem;
-    outline: none;
-    border-radius: 5px;
+  flex: 1;
+  margin-right: 10px;
+  padding: 5px;
+  font-size: 1.2rem;
+  outline: none;
+  border-radius: 5px;
 }
 
 .Filter-submit {
-    margin-left: 10px;
-    background-color: #0084cc;
-    border-radius: 5px;
-    width: 15%;
-    padding: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    outline: none;
-    cursor: pointer;
+  margin-left: 10px;
+  background-color: #0084cc;
+  border-radius: 5px;
+  width: 15%;
+  padding: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  outline: none;
+  cursor: pointer;
+}
+
+.Filter-date {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.Filter-date-input {
+  flex: 1;
+  padding: 5px 10px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.Filter-date-btn {
+  position: absolute;
+  top: 10px;
+  right: 3px;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  pointer-events: none;
+}
+
+.Filter-date-btn button {
+  border: none;
+  background: transparent;
+}
+
+.Filter-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 10px 0;
+}
+
+.Filter-date-range {
+    display: flex;
+    flex: 1;
+    padding: 10px 0;
+}
+
+.Filter-date-label {
+    margin-right: 10px;
 }
