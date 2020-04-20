@@ -3,6 +3,7 @@ import "./BikeTrack.css";
 import List from "../List/List";
 import Pagination from "../Pagination/Pagination";
 import Header from "../Header/Header";
+import Filter from "../Filter/Filter";
 
 const INCIDENTS_URL = "https://bikewise.org:443/api/v2/incidents",
   QUERY_PARAMETERS = {
@@ -31,6 +32,9 @@ class BikeTrack extends Component {
       error: false,
       records: [],
     },
+    filter: {
+      query: "",
+    },
   };
 
   componentDidMount() {
@@ -40,10 +44,22 @@ class BikeTrack extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.current.page !== this.state.current.page) {
+    if (
+      prevState.current.page !== this.state.current.page ||
+      prevState.filter.query !== this.state.filter.query
+    ) {
       this.getCurrentPageIncidents();
     }
   }
+
+  setFilterQuery = (query) => {
+    this.setState({
+      filter: {
+        ...this.state.filter,
+        query: encodeURI(query),
+      },
+    });
+  };
 
   getTotalIncidents = () => {
     debugger;
@@ -89,7 +105,9 @@ class BikeTrack extends Component {
       },
     });
 
-    const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
+    let url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
+
+    if (this.state.filter.query) url += `&query=${this.state.filter.query}`;
 
     fetch(url)
       .then((data) => data.json())
@@ -142,6 +160,8 @@ class BikeTrack extends Component {
     return (
       <div className="BikeTrack">
         <Header title={title} subtitle={subtitle} />
+
+        <Filter setFilterQuery={this.setFilterQuery} />
 
         {/* Incident List */}
         <List {...this.state.current} />

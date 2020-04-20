@@ -2,22 +2,27 @@ import React from "react";
 import "./List.css";
 import ListItem from "../ListItem/ListItem";
 
-function List({ records, loading=false, error=false }) {
+function List({ records=[], loading=false, error=false }) {
   const errorText = "Oops, something went wrong",
-    loadingText = "Loading...";
+    loadingText = "Loading...",
+    emptyText = "No results",
+    isEmpty = records.length === 0;
 
-  const placeholderText = error ? (
-    <span className="List-error">{errorText}</span>
-  ) : (
-    <span className="List-loading">{loadingText}</span>
-  );
+  const placeholderText = () => {
+    if(error)
+      return <span className="List-error">{errorText}</span>;
+    if(loading)
+      return <span className="List-loading">{loadingText}</span>;
+    if(isEmpty)
+      return <span className="List-empty">{emptyText}</span>;
+  }
 
   return (
     <div className="List">
       {
-      loading || error ? (
+      loading || error || isEmpty ? (
         <div className="List-placeholder">
-          {placeholderText}
+          {placeholderText()}
         </div>
       ) : (
         records.map((incident) => (
