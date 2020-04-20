@@ -1,5 +1,5 @@
 .ListItem {
-    border: 2px solid black;
+    border: 2px solid #aaa;
     display: flex;
     align-items: center;
     padding: 5px;

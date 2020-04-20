@@ -53,16 +53,17 @@ class BikeTrack extends Component {
   }
 
   setFilterQuery = (query) => {
+    // setting query filter to state
     this.setState({
       filter: {
         ...this.state.filter,
-        query: encodeURI(query),
+        query
       },
     });
   };
 
   getTotalIncidents = () => {
-    debugger;
+    // Initial loading while fetching all records
     this.setState({
       all: {
         ...this.state.all,
@@ -97,7 +98,7 @@ class BikeTrack extends Component {
   };
 
   getCurrentPageIncidents = () => {
-    debugger;
+    // Initial loading while fetching records of current page
     this.setState({
       current: {
         ...this.state.current,
