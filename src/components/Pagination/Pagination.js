@@ -6,10 +6,9 @@ const Pagination = ({
   perPage,
   setPage,
   loading = false,
-  records = [],
+  records,
   error = false,
 }) => {
-  debugger;
   const numPages = records>perPage ? Math.ceil(records / perPage) : 1;
 
   const isFirstPage = currentPage === 1,
