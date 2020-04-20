@@ -40,6 +40,7 @@ class BikeTrack extends Component {
       query: "",
       rangeStart: "",
       rangeEnd: "",
+      applied: false
     },
   };
 
@@ -68,6 +69,7 @@ class BikeTrack extends Component {
         query: query ? query : "",
         rangeStart: rangeStart ? formatDate(rangeStart) : "",
         rangeEnd: rangeEnd ? formatDate(rangeEnd) : "",
+        applied: (query || rangeStart || rangeEnd)
       },
     });
   };
@@ -188,6 +190,7 @@ class BikeTrack extends Component {
           perPage={recordsPerPage}
           setPage={this.setPage}
           {...this.state.all}
+          records={this.state.filter.applied ? this.state.current.records : this.state.all.records}
         />
       </div>
     );

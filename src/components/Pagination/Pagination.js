@@ -1,11 +1,19 @@
 import React from "react";
 import "./Pagination.css";
 
-const Pagination = ({ currentPage, perPage, setPage, loading=false, records=[], error=false }) => {
+const Pagination = ({
+  currentPage,
+  perPage,
+  setPage,
+  loading = false,
+  records = [],
+  error = false,
+}) => {
   const numPages = Math.ceil(records / perPage);
 
   const isFirstPage = currentPage === 1,
-    isLastPage = currentPage === numPages;
+    isLastPage = currentPage === numPages,
+    isOnlyPage = numPages === 1;
 
   /**
    * Helper method for creating a range of numbers
@@ -47,31 +55,29 @@ const Pagination = ({ currentPage, perPage, setPage, loading=false, records=[], 
     <span className="Pagination-loading">{loadingText}</span>
   );
 
+  const actionPage = (text, data, disabled) => {
+    return (
+      !isOnlyPage && (
+        <button
+          className="Pagination-item"
+          data-page={data}
+          onClick={handlePageClick}
+          disabled={disabled}
+        >
+          {text}
+        </button>
+      )
+    );
+  };
+
   return (
     <div className="Pagination-container">
       {loading || error ? (
-        <div className="Pagination-placeholder">
-          {placeholderText}
-        </div>
+        <div className="Pagination-placeholder">{placeholderText}</div>
       ) : (
         <div className="Pagination">
-          <button
-            className="Pagination-item"
-            data-page="first"
-            onClick={handlePageClick}
-            disabled={isFirstPage}
-          >
-            {"<< First"}
-          </button>
-
-          <button
-            className="Pagination-item"
-            data-page="prev"
-            onClick={handlePageClick}
-            disabled={isFirstPage}
-          >
-            {"< Prev"}
-          </button>
+          {actionPage("<< First", "first", isFirstPage)}
+          {actionPage("< Prev", "prev", isFirstPage)}
 
           {range(1, numPages).map((page) => (
             <button
@@ -85,23 +91,8 @@ const Pagination = ({ currentPage, perPage, setPage, loading=false, records=[], 
             </button>
           ))}
 
-          <button
-            className="Pagination-item"
-            data-page="next"
-            onClick={handlePageClick}
-            disabled={isLastPage}
-          >
-            {"Next >"}
-          </button>
-
-          <button
-            className="Pagination-item"
-            data-page="last"
-            onClick={handlePageClick}
-            disabled={isLastPage}
-          >
-            {"Last >>"}
-          </button>
+          {actionPage("Next >", "next", isLastPage)}
+          {actionPage("Last >>", "last", isLastPage)}
         </div>
       )}
     </div>
