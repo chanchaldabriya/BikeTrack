@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Pagination.css";
 
 const Pagination = ({
@@ -9,7 +9,8 @@ const Pagination = ({
   records = [],
   error = false,
 }) => {
-  const numPages = Math.ceil(records / perPage);
+  debugger;
+  const numPages = records>perPage ? Math.ceil(records / perPage) : 1;
 
   const isFirstPage = currentPage === 1,
     isLastPage = currentPage === numPages,
