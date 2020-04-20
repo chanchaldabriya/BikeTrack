@@ -1,3 +1,28 @@
 .BikeTrack {
     padding: 0 10%;
 }
+
+.BikeTrack-location-total {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 1.1rem;
+}
+
+.BikeTrack-location {
+    flex: 1;
+}
+
+.BikeTrack-location-input {
+    font-size: 1.1rem;
+}
+
+.BikeTrack-total {
+    flex: 1;
+    text-align: right;
+}
+
+.BikeTrack-location-label,
+.BikeTrack-total-label {
+    color: #0084cc;
+}

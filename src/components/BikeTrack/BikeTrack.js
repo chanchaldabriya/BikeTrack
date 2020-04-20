@@ -15,7 +15,6 @@ const INCIDENTS_URL = "https://bikewise.org:443/api/v2/incidents",
 
 const recordsPerPage = 10,
   incidentType = "theft",
-  proximity = "delhi",
   title = "Delhi Police Department",
   subtitle = "Stolen Bikes";
 
@@ -42,6 +41,7 @@ class BikeTrack extends Component {
       rangeEnd: "",
       applied: false
     },
+    proximity: "delhi"
   };
 
   componentDidMount() {
@@ -55,7 +55,8 @@ class BikeTrack extends Component {
       prevState.current.page !== this.state.current.page ||
       prevState.filter.query !== this.state.filter.query ||
       prevState.filter.rangeStart !== this.state.filter.rangeStart ||
-      prevState.filter.rangeEnd !== this.state.filter.rangeEnd
+      prevState.filter.rangeEnd !== this.state.filter.rangeEnd ||
+      prevState.proximity !== this.state.proximity
     ) {
       this.getCurrentPageIncidents();
     }
@@ -83,7 +84,7 @@ class BikeTrack extends Component {
       },
     });
 
-    const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
+    const url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${this.state.proximity}`;
     fetch(url)
       .then((data) => data.json())
       .then((response) => {
@@ -118,7 +119,7 @@ class BikeTrack extends Component {
       },
     });
 
-    let url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${proximity}`;
+    let url = `${INCIDENTS_URL}?${QUERY_PARAMETERS.PAGE}=${this.state.current.page}&${QUERY_PARAMETERS.PER_PAGE}=${recordsPerPage}&${QUERY_PARAMETERS.INCIDENT_TYPE}=${incidentType}&${QUERY_PARAMETERS.PROXIMITY}=${this.state.proximity}`;
 
     if (this.state.filter.query) url += `&query=${this.state.filter.query}`;
 
@@ -181,6 +182,21 @@ class BikeTrack extends Component {
         <Header title={title} subtitle={subtitle} />
 
         <Filter setFilter={this.setFilter} />
+
+        <div className="BikeTrack-location-total">
+          {/* Proximity Field */}
+          <div className="BikeTrack-location">
+            <label className="BikeTrack-location-label">Proximity: </label>
+            <input type="text" className="BikeTrack-location-input"
+            value={this.state.proximity} onChange={event => this.setState({proximity: event.target.value})}/>
+          </div>
+
+          {/* Viewing total / filtered records */}
+          <div className="BikeTrack-total">
+            <span className="BikeTrack-total-label">Total: </span>
+            <span className="BikeTrack-total-value">{this.state.filter.applied ? this.state.current.records.length : this.state.all.records}</span>
+          </div>
+        </div>
 
         {/* Incident List */}
         <List {...this.state.current} />
