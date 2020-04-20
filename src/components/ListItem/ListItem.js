@@ -3,7 +3,7 @@ import "./ListItem.css";
 import bikePlaceholder from "../../images/bicycle-solid.svg";
 
 function ListItem({ incident }) {
-  const { title, description, occurred_at, address, media } = incident;
+  const { title, description, occurred_at, updated_at, address, media } = incident;
   const hasImage = media["image_url_thumb"],
     placeholderClass = !hasImage ? " img-placeholder" : "";
 
@@ -28,11 +28,20 @@ function ListItem({ incident }) {
         {description && <p className="ListItem-description">{description}</p>}
 
         <div className="ListItem-timestamp">
-          <span className="ListItem-date">
-            {getDateString(occurred_at)}
-          </span>
-          {` - `}
-          <span className="ListItem-location">{address}</span>
+          <div className="ListItem-stolen">
+            <span className="ListItem-stolen-label">Stolen: </span>
+            <span>{getDateString(occurred_at)}</span>
+          </div>
+
+          <div className="ListItem-reported">
+            <span className="ListItem-reported-label">Reported: </span>
+            <span>{getDateString(updated_at)}</span>
+          </div>
+
+          <div className="ListItem-location">
+            <span className="ListItem-location-label">Location: </span>
+            <span>{address}</span>
+          </div>
         </div>
       </div>
     </div>

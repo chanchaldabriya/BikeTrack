@@ -4,6 +4,7 @@
     align-items: center;
     padding: 5px;
     margin-top: 10px;
+    border-radius: 5px;
 }
 
 .ListItem-title {
@@ -41,4 +42,23 @@
     flex-direction: column;
     padding: 10px;
     margin: 0 10px;
+}
+
+.ListItem-timestamp {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    justify-content: space-between;
+}
+
+.ListItem-stolen-label {
+    color: #E6738B;
+}
+
+.ListItem-reported-label {
+    color: #70C486;
+}
+
+.ListItem-location-label {
+    color: #0084cc;
 }
